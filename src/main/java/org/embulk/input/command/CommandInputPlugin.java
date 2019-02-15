@@ -1,14 +1,10 @@
 package org.embulk.input.command;
 
-import org.embulk.spi.time.TimestampParseException;
-import org.embulk.spi.time.TimestampParser;
-import org.embulk.spi.util.Timestamps;
-import java.util.ArrayList;
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.escape.Escaper;
 import com.google.common.escape.CharEscaperBuilder;
+import com.google.common.escape.Escaper;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.enums.CSVReaderNullFieldIndicator;
@@ -23,6 +19,7 @@ import java.nio.file.Paths;
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +46,9 @@ import org.embulk.spi.SchemaConfig;
 import org.embulk.spi.json.JsonParseException;
 import org.embulk.spi.json.JsonParser;
 import org.embulk.spi.time.Timestamp;
+import org.embulk.spi.time.TimestampParseException;
+import org.embulk.spi.time.TimestampParser;
+import org.embulk.spi.util.Timestamps;
 import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -102,6 +102,7 @@ public class CommandInputPlugin
 
     public static final Escaper SHELL_ESCAPER = new CharEscaperBuilder()
         .addEscape('\'', "'\"'\"'")
+        .addEscape(' ', "\\ ")
         .toEscaper();
 
     private static Path resolveOutPath(Path tempDir, int taskIndex) {
@@ -226,14 +227,14 @@ public class CommandInputPlugin
         Path outPath = resolveOutPath(tempDir, taskIndex);
         int ecode;
         try {
-            // $ <command> run /tmp/setup.yml <taskIndex> <output-taskIndex.csv>
+            // $ <command> run /tmp/setup.yml <output-taskIndex.csv> <taskIndex>
             if (task.getTryNamedPipe() && tryToCreateNamedPipe(outPath)) {
                 Process proc = startCommand(task.getCwd(), task.getEnv(), task.getCommand(),
                         ImmutableList.of(
                             "run",
                             setupPath.toString(),
-                            Integer.toString(taskIndex),
-                            outPath.toString()));
+                            outPath.toString(),
+                            Integer.toString(taskIndex)));
                 try (InputStream in = Files.newInputStream(outPath)) {
                     readRecords(in, output, schema, taskIndex, timestampParsers);
                 } finally {
@@ -245,8 +246,8 @@ public class CommandInputPlugin
                         ImmutableList.of(
                             "run",
                             setupPath.toString(),
-                            Integer.toString(taskIndex),
-                            outPath.toString()));
+                            outPath.toString(),
+                            Integer.toString(taskIndex)));
                 try (InputStream in = Files.newInputStream(outPath)) {
                     readRecords(in, output, schema, taskIndex, timestampParsers);
                 }
@@ -471,5 +472,4 @@ public class CommandInputPlugin
             }
         });
     }
-
 }

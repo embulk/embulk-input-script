@@ -1,6 +1,7 @@
 in:
   type: command
   command: ruby command.rb
-  try_named_pipe: false
+  config:
+    any: param
 out:
   type: stdout

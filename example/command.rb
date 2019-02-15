@@ -20,8 +20,8 @@ when "setup"
 
 when "run"
   setup = YAML.load_file(ARGV[1])
-  task_index = ARGV[2].to_i
-  output_path = ARGV[3]
+  output_path = ARGV[2]
+  task_index = ARGV[3].to_i
 
   File.open(output_path, "w") do |out|
     [
