@@ -20,6 +20,7 @@ import java.time.Instant;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -95,10 +96,15 @@ public class ScriptInputPlugin
         int getTasks();
     }
 
-    public static final List<String> SHELL = ImmutableList.of(
-            // TODO use ["PowerShell.exe", "-Command"] on windows?
-            "sh", "-c"
-    );
+    static List<String> buildShell()
+    {
+        String osName = System.getProperty("os.name");
+        if(osName.indexOf("Windows") >= 0) {
+            return ImmutableList.of("PowerShell.exe", "-Command");
+        } else {
+            return ImmutableList.of("sh", "-c");
+        }
+    }
 
     public static final Escaper SHELL_ESCAPER = new CharEscaperBuilder()
         .addEscape('\'', "'\"'\"'")
@@ -224,6 +230,9 @@ public class ScriptInputPlugin
         TimestampParser[] timestampParsers =
             Timestamps.newTimestampColumnParsers(setup, setup.getSchemaConfig());
 
+        Map<String, String> env = new HashMap<>(task.getEnv());
+        env.put("INDEX", Integer.toString(taskIndex));  // compatible with embulk-output-command
+
         Path outPath = resolveOutPath(tempDir, taskIndex);
         int ecode;
         try {
@@ -295,7 +304,7 @@ public class ScriptInputPlugin
 
         // $ sh -c "shellCommand \"@args\""
         List<String> sh = new ArrayList<>();
-        sh.addAll(SHELL);
+        sh.addAll(buildShell());
         {
             StringBuilder esc = new StringBuilder();
             esc.append(shellCommand);
