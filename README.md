@@ -1,4 +1,4 @@
-# Command input plugin for Embulk
+# Script input plugin for Embulk
 
 TODO: Write short description here and build.gradle file.
 
@@ -19,7 +19,7 @@ TODO: Write short description here and build.gradle file.
 
 ```yaml
 in:
-  type: command
+  type: script
   option1: example1
   option2: example2
 ```

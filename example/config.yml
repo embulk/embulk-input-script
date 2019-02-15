@@ -1,6 +1,6 @@
 in:
-  type: command
-  command: ruby command.rb
+  type: script
+  run: ruby script.rb
   config:
     any: param
 out:

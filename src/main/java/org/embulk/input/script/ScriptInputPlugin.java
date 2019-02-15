@@ -1,4 +1,4 @@
-package org.embulk.input.command;
+package org.embulk.input.script;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
@@ -53,11 +53,11 @@ import org.slf4j.Logger;
 import org.yaml.snakeyaml.Yaml;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
-public class CommandInputPlugin
+public class ScriptInputPlugin
         implements InputPlugin
 {
     public interface PluginTask extends Task {
-        @Config("command")
+        @Config("run")
         public String getCommand();
 
         @Config("config")
@@ -126,7 +126,7 @@ public class CommandInputPlugin
         Path tempDir;
         Path configPath;
         try {
-            tempDir = Files.createTempDirectory("embulk-input-command-");
+            tempDir = Files.createTempDirectory("embulk-input-script-");
             task.setTempDir(tempDir.toString());
 
             // create /tmp/config.yml

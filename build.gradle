@@ -79,11 +79,11 @@ Gem::Specification.new do |spec|
   spec.name          = "${project.name}"
   spec.version       = "${project.version}"
   spec.authors       = ["Sadayuki Furuhashi"]
-  spec.summary       = %[Command input plugin for Embulk]
-  spec.description   = %[Loads records from Command.]
+  spec.summary       = %[Script input plugin for Embulk]
+  spec.description   = %[Loads records from Script.]
   spec.email         = ["frsyuki@gmail.com"]
   spec.licenses      = ["MIT"]
-  # TODO set this: spec.homepage      = "https://github.com/frsyuki/embulk-input-command"
+  # TODO set this: spec.homepage      = "https://github.com/frsyuki/embulk-input-script"
 
   spec.files         = `git ls-files`.split("\n") + Dir["classpath/*.jar"]
   spec.test_files    = spec.files.grep(%r"^(test|spec)/")

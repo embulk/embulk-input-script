@@ -1,3 +1,3 @@
 Embulk::JavaPlugin.register_input(
-  "command", "org.embulk.input.command.CommandInputPlugin",
+  "script", "org.embulk.input.script.ScriptInputPlugin",
   File.expand_path('../../../../classpath', __FILE__))
