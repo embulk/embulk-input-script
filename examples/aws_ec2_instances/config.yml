@@ -1,0 +1,7 @@
+in:
+  type: script
+  run: python aws_ec2_instances.py
+  config:
+    region_name: us-east-1
+out:
+  type: stdout

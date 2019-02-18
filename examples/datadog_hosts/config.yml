@@ -1,0 +1,8 @@
+in:
+  type: script
+  run: python datadog_hosts.py
+  config:
+    api_key: API_KEY
+    app_key: APP_KEY
+out:
+  type: stdout
