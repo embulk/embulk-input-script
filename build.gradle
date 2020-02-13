@@ -18,7 +18,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 dependencies {
-    compileOnly "org.embulk:embulk-core:0.9.14"
+    compileOnly "org.embulk:embulk-core:0.9.23"
+    compile "org.yaml:snakeyaml:1.18"
     compile("com.opencsv:opencsv:4.5") {
         exclude group: "commons-collections", module: "commons-collections"
         exclude group: "org.apache.commons", module: "commons-lang3"
