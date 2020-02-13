@@ -51,6 +51,7 @@ import org.embulk.spi.time.TimestampParseException;
 import org.embulk.spi.time.TimestampParser;
 import org.embulk.spi.util.Timestamps;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -123,7 +124,7 @@ public class ScriptInputPlugin
         return tempDir.resolve("setup.yml");
     }
 
-    private final Logger logger = Exec.getLogger(getClass());
+    private static final Logger logger = LoggerFactory.getLogger(ScriptInputPlugin.class);
 
     @Override
     public ConfigDiff transaction(ConfigSource config,
