@@ -1,0 +1,12 @@
+in:
+  type: script
+  run: ruby covid19.rb
+  try_named_pipe: false
+out:
+  type: postgresql
+  host: localhost          # Set PostgreSQL hostname
+  user: pg                 # Set PostgreSQL username
+  password: ""             # Set PostgreSQL password
+  database: embulk_example # Set PostgreSQL database name
+  table: covid19           # Set destination table name
+  mode: replace
