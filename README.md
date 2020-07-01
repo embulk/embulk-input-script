@@ -31,14 +31,14 @@ out:
 With this configuration, this plugin executes your command (`python my_script.py`) as following:
 
 1. python my_script.py **setup** config.yml _setup.yml_
-2. python my_script.py **run** setup.yml **N** _output.csv_
+2. python my_script.py **run** setup.yml _output.csv_ **N**
 3. python my_script.py **finish** setup.yml _next.yml_
 
 As you see, your script runs 3 times (_italic_ is paths for write (your script writes to the paths). The others are for read).
 
 At step 1, your script is called with **setup** as the first argument. Your script should read a config file (`config.yml`) from the path of 2nd argument, and write a YAML file (`setup.yml`) to the 3rd argument. Config file (`config.yml`) includes the contents you give in the `config:` section of the Embulk config file (`my_config_1: value_1`). Setup file (`setup.yml`) must include `tasks: N` (N is an integer) and `columns: SCHEMA` at least. See "The setup file" section bellow for details.
 
-At step 2, your script is called with **run** as the first argument, and the YAML file written by step 1 (`setup.yml`) as the 2nd argument. Your script should write a CSV file to the 4th argument (`output.csv`). This step runs multiple times with sequence number starting from 0 as the 3rd argument (`N`). You specify number of the repeat to the `tasks` field in the setup file.
+At step 2, your script is called with **run** as the first argument, and the YAML file written by step 1 (`setup.yml`) as the 2nd argument. Your script should write a CSV file to the 3rd argument (`output.csv`). This step runs multiple times with sequence number starting from 0 as the 4th argument (`N`). You specify number of the repeat to the `tasks` field in the setup file.
 
 At step 3, your script is called with **finish** as the first argument, and the YAML file written by step 1 (`setup.yml`) as the 2nd argument. Your script optionally write a YAML file for the next execution to the 3rd argument.
 
